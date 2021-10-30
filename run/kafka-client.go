@@ -112,7 +112,8 @@ func (consumer *Consumer) ConsumeClaim(session sarama.ConsumerGroupSession, clai
 	// The `ConsumeClaim` itself is called within a goroutine, see:
 	// https://github.com/Shopify/sarama/blob/main/consumer_group.go#L27-L29
 	for message := range claim.Messages() {
-		log.Printf("Message claimed: value = %s, timestamp = %v, topic = %s", string(message.Value), message.Timestamp, message.Topic)
+		log.Printf("timestamp : %v, topic : %s, partion : %", message.Timestamp, message.Topic,message.Partition)
+		log.Printf("Message claimed: value = %s", string(message.Value))
 		session.MarkMessage(message, "")
 	}
 
