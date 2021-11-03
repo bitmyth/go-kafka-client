@@ -23,10 +23,14 @@ var offset int64
 func main() {
 	flag.StringVar(&topic, "topic", "", "input topic")
 	flag.StringVar(&addrs, "addrs", "", "input addrs,separate by comma")
-	flag.Int64Var(&offset, "offset", sarama.OffsetNewest, "input addrs,separate by comma")
+	flag.Int64Var(&offset, "offset", sarama.OffsetNewest, "input offset")
 	flag.BoolVar(&fromBeginning, "from-beginning", false, "if read from beginning")
 	flag.StringVar(&group, "group", "", "input group")
 	flag.Parse()
+	if flag.NFlag()==0{
+		flag.PrintDefaults()
+		return
+	}
 
 	if offset == 0 {
 		offset = sarama.OffsetNewest
@@ -37,6 +41,7 @@ func main() {
 
 	log.Println("topic:", topic)
 	log.Println("addresses:", addrs)
+	log.Println("offset:", offset)
 
 	addrsArray := strings.Split(addrs, ",")
 
