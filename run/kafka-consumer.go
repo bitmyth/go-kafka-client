@@ -17,17 +17,20 @@ var topic string
 var addrs string
 var fromBeginning bool
 var group string
+var offset int64
 
 // kafka consumer
 func main() {
 	flag.StringVar(&topic, "topic", "", "input topic")
 	flag.StringVar(&addrs, "addrs", "", "input addrs,separate by comma")
-	// flag.Int64Var(&offset, "offset",sarama.OffsetNewest , "input addrs,separate by comma")
+	flag.Int64Var(&offset, "offset", sarama.OffsetNewest, "input addrs,separate by comma")
 	flag.BoolVar(&fromBeginning, "from-beginning", false, "if read from beginning")
 	flag.StringVar(&group, "group", "", "input group")
 	flag.Parse()
 
-	offset := sarama.OffsetNewest
+	if offset == 0 {
+		offset = sarama.OffsetNewest
+	}
 	if fromBeginning {
 		offset = sarama.OffsetOldest
 	}
@@ -112,7 +115,7 @@ func (consumer *Consumer) ConsumeClaim(session sarama.ConsumerGroupSession, clai
 	// The `ConsumeClaim` itself is called within a goroutine, see:
 	// https://github.com/Shopify/sarama/blob/main/consumer_group.go#L27-L29
 	for message := range claim.Messages() {
-		log.Printf("timestamp : %v, topic : %s, partion : %d", message.Timestamp.Format("2016-01-02 15:04:05"), message.Topic,message.Partition)
+		log.Printf("timestamp : %v, topic : %s, partion : %d", message.Timestamp.Format("2016-01-02 15:04:05"), message.Topic, message.Partition)
 		log.Printf("Message claimed: value = %s", string(message.Value))
 		session.MarkMessage(message, "")
 	}
