@@ -27,7 +27,7 @@ func main() {
 	flag.BoolVar(&fromBeginning, "from-beginning", false, "if read from beginning")
 	flag.StringVar(&group, "group", "", "input group")
 	flag.Parse()
-	if flag.NFlag()==0{
+	if flag.NFlag() == 0 {
 		flag.PrintDefaults()
 		return
 	}
