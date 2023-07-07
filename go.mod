@@ -1,4 +1,4 @@
-module worker
+module github.com/bitmyth/kafka
 
 go 1.17
 
