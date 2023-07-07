@@ -1,4 +1,4 @@
-module github.com/bitmyth/kafka
+module github.com/bitmyth/go-kafka-client
 
 go 1.17
 
