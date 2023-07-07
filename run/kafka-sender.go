@@ -13,6 +13,7 @@ import (
 var config *sarama.Config
 var client sarama.SyncProducer
 var topic string
+var key string
 var message string
 
 // kafka sender
@@ -26,6 +27,7 @@ func main() {
 
 	msg := &sarama.ProducerMessage{
 		Topic: topic,
+		Key: sarama.StringEncoder(key),
 		Value: sarama.ByteEncoder(message),
 	}
 
@@ -41,6 +43,7 @@ func main() {
 func Init() (sarama.SyncProducer, error) {
 	var addrs string
 	flag.StringVar(&topic, "topic", "", "input topic")
+	flag.StringVar(&key, "key", "", "key")
 	flag.StringVar(&addrs, "addrs", "localhost:9092", "input addrs,separate by comma")
 	flag.StringVar(&message, "message", "this is message:"+time.Now().String(), "input group")
 
